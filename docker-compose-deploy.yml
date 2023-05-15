@@ -1,20 +1,17 @@
+version: '3.8'
+
 services:
   proxy:
     image: nginx:1.21.6-alpine
-    container_name: proxy
     volumes:
       - ./proxy:/etc/nginx/templates
     ports:
       - "17778:80"
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
     networks:
       - internal_net
   
   rabbitmq:
     image: masstransit/rabbitmq:latest
-    container_name: rabbitmq
     hostname: rabbitmq
     healthcheck:
       test: rabbitmq-diagnostics -q ping
@@ -26,8 +23,6 @@ services:
 
   frontend:
     image: odiakun/frontend:latest
-    depends_on:
-      - proxy
     env_file:
       - variables-deploy.env
     networks:
@@ -35,9 +30,6 @@ services:
 
   entrance:
     image: odiakun/entrance:latest
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
     env_file:
       - variables-deploy.env
     networks:
@@ -45,11 +37,6 @@ services:
 
   chat:
     image: odiakun/chat:latest
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
-      mongo:
-        condition: service_healthy
     env_file:
       - variables-deploy.env
     networks:
@@ -58,8 +45,6 @@ services:
 
   login:
     image: odiakun/login:latest
-    depends_on:
-      - postgres
     env_file:
       - variables-deploy.env
     networks:
