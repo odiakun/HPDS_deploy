@@ -58,13 +58,13 @@ services:
     networks:
       - internal_net
     volumes:
-      - C:\Users\oksan\Desktop\Studia\INFA\HPDS\ImageTest:/app/Images
+      - /mnt/block-storage/students/projects/students-swarm-services/HPDS_177788/HPDS_deploy/Images:/app/Images
 
   image-server:
     image: node:14-alpine
     command: npx http-server /app/Images -p 8090
     volumes:
-      - C:\Users\oksan\Desktop\Studia\INFA\HPDS\ImageTest:/app/Images
+      - /mnt/block-storage/students/projects/students-swarm-services/HPDS_177788/HPDS_deploy/Images:/app/Images
     ports:
       - 17780:17780
 
