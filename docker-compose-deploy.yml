@@ -30,6 +30,8 @@ services:
 
   entrance:
     image: odiakun/entrance:latest
+    ports:
+      - "17779:80"
     env_file:
       - variables-deploy.env
     networks:
@@ -42,13 +44,29 @@ services:
     networks:
       - internal_net
 
-
   login:
     image: odiakun/login:latest
     env_file:
       - variables-deploy.env
     networks:
       - internal_net
+
+  image:
+    image: odiakun/image:latest
+    env_file:
+      - variables.env
+    networks:
+      - internal_net
+    volumes:
+      - C:\Users\oksan\Desktop\Studia\INFA\HPDS\ImageTest:/app/Images
+
+  image-server:
+    image: node:14-alpine
+    command: npx http-server /app/Images -p 8090
+    volumes:
+      - C:\Users\oksan\Desktop\Studia\INFA\HPDS\ImageTest:/app/Images
+    ports:
+      - 17780:17780
 
 networks:
       mongo_net:
