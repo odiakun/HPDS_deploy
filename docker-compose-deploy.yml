@@ -54,7 +54,7 @@ services:
   image:
     image: odiakun/image:latest
     env_file:
-      - variables.env
+      - variables-deploy.env
     networks:
       - internal_net
     volumes:
