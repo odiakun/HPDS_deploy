@@ -43,6 +43,7 @@ services:
       - variables-deploy.env
     networks:
       - internal_net
+      - mongo_net
 
   login:
     image: odiakun/login:latest
@@ -50,6 +51,7 @@ services:
       - variables-deploy.env
     networks:
       - internal_net
+      - postgres_net
 
   image:
     image: odiakun/image:latest
@@ -57,6 +59,7 @@ services:
       - variables-deploy.env
     networks:
       - internal_net
+      - mongo_net
     volumes:
       - /mnt/block-storage/students/projects/students-swarm-services/HPDS_177788/HPDS_deploy/Images:/app/Images
 
@@ -67,6 +70,8 @@ services:
       - /mnt/block-storage/students/projects/students-swarm-services/HPDS_177788/HPDS_deploy/Images:/app/Images
     ports:
       - 17780:17780
+    networks:
+      - internal_net
 
 networks:
       mongo_net:
